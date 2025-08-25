@@ -7,7 +7,6 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[
-        ('config.json', '.'),
         ('gui', 'gui'),
         ('core', 'core')
     ],

@@ -3,9 +3,10 @@ from tkinter import ttk, messagebox, filedialog
 import pandas as pd
 
 class MappingEditor:
-    def __init__(self, parent, config):
+    def __init__(self, parent, config, on_save=None):
         self.parent = parent
         self.config = config
+        self.on_save = on_save  # Callback для сохранения конфигурации
         self.create_widgets()
         self.load_data()
         # Привязываем обработчик клика к таблицам
@@ -128,7 +129,12 @@ class MappingEditor:
                 values = self.region_table.item(item, "values")
                 if values and len(values) >= 2:
                     self.config["region_mapping"][values[0]] = values[1]
-            messagebox.showinfo("Успех", "Маппинги сохранены")
+            
+            # Вызываем callback для сохранения конфигурации в файл
+            if self.on_save:
+                self.on_save()
+            else:
+                messagebox.showinfo("Успех", "Маппинги сохранены")
         except Exception as e:
             messagebox.showerror("Ошибка сохранения", str(e))
 

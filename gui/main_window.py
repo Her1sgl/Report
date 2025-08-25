@@ -158,10 +158,17 @@ class MainApp(tk.Tk):
             self.notebook.add(editor_frame, text="Редактор конфигурации")
         else:
             editor_frame = ttk.Frame(self.notebook)
-            MappingEditor(editor_frame, self.config)
+            MappingEditor(editor_frame, self.config, on_save=self.save_config_callback)
             self.notebook.add(editor_frame, text="Редактор маппингов")
         
         self.notebook.select(len(self.notebook.tabs())-1)
+    
+    def save_config_callback(self):
+        """Callback для сохранения конфигурации после изменений в редакторе маппингов"""
+        if save_config(self.config):
+            messagebox.showinfo("Успех", "Конфигурация сохранена")
+        else:
+            messagebox.showerror("Ошибка", "Не удалось сохранить конфигурацию")
     
     def browse_file(self, target_var, title):
         file = filedialog.askopenfilename(
